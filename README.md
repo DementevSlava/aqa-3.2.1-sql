@@ -20,4 +20,4 @@ Build #IC-202.5958.24, built on June 25, 2020
 Runtime version: 11.0.7+10-b944.13 amd64
 VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
 Windows 8.1 6.3
-Docker Toolbox
+Docker Toolbox.
