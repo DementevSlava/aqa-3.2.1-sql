@@ -26,9 +26,29 @@ public class LoginTest {
         loginPage.openLoginPage();
         val authInfo = DataHelper.getAuthInfo();
         val verificationPage = loginPage.validLogin(authInfo);
-        verificationPage.verificationPage();
+
         val verificationCode = DataHelper.getVerificationCode();
         val dashboardPage = verificationPage.validVerify(verificationCode);
         dashboardPage.dashboardPage();
     }
+
+    @Test
+    @DisplayName("Should invalid login")
+    void shouldInvalidLogin() {
+        val loginPage = new LoginPage();
+        loginPage.openLoginPage();
+        val authInfo = DataHelper.getInvalidLoginAuthInfo();
+        loginPage.invalidAuth(authInfo);
+    }
+
+    @Test
+    @DisplayName("Should invalid pass")
+    void shouldInvalidPass() {
+        val loginPage = new LoginPage();
+        loginPage.openLoginPage();
+        val authInfo = DataHelper.getInvalidPasswordAuthInfo();
+        loginPage.invalidAuth(authInfo);
+    }
+
+
 }
