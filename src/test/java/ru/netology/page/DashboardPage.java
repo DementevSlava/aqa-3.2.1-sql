@@ -25,7 +25,7 @@ public class DashboardPage {
 
         try (
                 val conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
+                        "jdbc:mysql://192.168.99.100:3306/app", "app", "pass"
                 )
         ) {
             runner.update(conn, cleanAuthCodes);
