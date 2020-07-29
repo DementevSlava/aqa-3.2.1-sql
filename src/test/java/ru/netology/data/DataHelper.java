@@ -1,11 +1,16 @@
 package ru.netology.data;
 
-import lombok.*;
+import lombok.Value;
+import lombok.val;
+import org.apache.commons.dbutils.QueryRunner;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DataHelper {
+    private static String url = "jdbc:mysql://192.168.99.100:3306/app";
+    private static String user = "app";
+    private static String password = "pass";
 
     private DataHelper() {
 
@@ -34,12 +39,11 @@ public class DataHelper {
         private String code;
     }
 
-    public static String getVerificationCode() throws SQLException {
+
+    public static String getVerificationCode() {
         val authCodeSQL = "SELECT  code FROM auth_codes order by created desc limit 1;";
         try (
-                val conn = DriverManager.getConnection(
-                        "jdbc:mysql://192.168.99.100:3306/app", "app", "pass"
-                );
+                val conn = DriverManager.getConnection(url, user, password);
                 val countStmt = conn.createStatement();
         ) {
             try (val rs = countStmt.executeQuery(authCodeSQL)) {
@@ -49,8 +53,27 @@ public class DataHelper {
                     return code;
                 }
             }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public static void cleanDataBase() {
+        val cleanCards = "DELETE FROM cards";
+        val cleanAuthCodes = "DELETE FROM auth_codes";
+        val cleanUser = "DELETE FROM users";
+        val runner = new QueryRunner();
+
+        try (
+                val conn = DriverManager.getConnection(url, user, password)
+        ) {
+            runner.update(conn, cleanAuthCodes);
+            runner.update(conn, cleanCards);
+            runner.update(conn, cleanUser);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
